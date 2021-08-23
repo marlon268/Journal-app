@@ -6,38 +6,39 @@
    font-size: 0.8rem;
    padding: 7px 10px 7px 10px;
 
-   transition: color 0.3s ease;
-
    &:focus {
       outline: none;
-   }
-
-   &:hover {
-      color: darken($color: white, $amount: 15);
    }
 }
 
 .btn-primary {
-   background-color: $primary;
+   background-color: darken($color: $primary, $amount: 10);
    border: 2px;
 
    &:disabled {
       background-color: lighten($color: $primary, $amount: 15);
-   }
-
-   &:hover {
-      background-color: darken($color: $primary, $amount: 15);
+      cursor: auto;
    }
 }
 
 .btn-block {
-   width: 100%;
+   width: 60%;
+}
+
+.btn-danger {
+   background-color: red;
+
+   transition: background-color 0.3s ease;
+
+   &:hover {
+      background-color: darken($color: red, $amount: 15);
+   }
 }
 
 .google-btn {
    cursor: pointer;
    margin-top: 5px;
-   width: 100%;
+   width: 90%;
    height: 42px;
    background-color: $google-blue;
    border-radius: 2px;

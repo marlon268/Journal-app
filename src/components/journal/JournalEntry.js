@@ -1,28 +1,54 @@
 import React from 'react'
+import moment from "moment";
+import { activeNote } from '../../actions/notes';
+import { useDispatch } from 'react-redux';
+// Utilizamos moment.js para manejar fechas
+export const JournalEntry = ({ id, date, title, body, url }) => {
 
-export const JournalEntry = () => {
+   const dispatch = useDispatch()
+
+   const note = {
+      title,
+      body,
+      date,
+      url
+   }
+
+   const noteDate = moment(date);
+
+   const handleEntryClick = () => {
+
+      dispatch(activeNote(id, note))
+
+   }
+
    return (
-      <div className="journal__entry pointer">
-         <div
-            className="journal__entry-picture"
-            style={{
-               backgroundSize: "cover",
-               backgroundImage: "url(https://wallpaperaccess.com/full/51360.jpg)",
-            }}
-         >
-         </div>
+      <div
+         className="journal__entry pointer animate__animated animate__fadeIn animate-faster"
+         onClick={handleEntryClick}
+      >
+         {
+            url &&
+            <div
+               className="journal__entry-picture"
+               style={{
+                  backgroundSize: "cover",
+                  backgroundImage: `url(${url})`,
+               }}
+            ></div>
+         }
          <div className="journal__entry-body">
             <p className="journal__entry-title">
-               Un nuevo dia
+               {title}
             </p>
             <p className="journal__entry-content">
-               Velit qui in et laboris reprehenderit Lorem cupidatat nostrud occaecat.
+               {body}
             </p>
          </div>
 
          <div className="journal__entry-date-box">
-            <span>Monday</span>
-            <h4>28</h4>
+            <span>{noteDate.format("dddd")}</span>
+            <h4>{noteDate.format("Do")}</h4>
          </div>
 
       </div>

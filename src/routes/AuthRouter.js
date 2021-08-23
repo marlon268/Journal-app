@@ -1,12 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { LoginScreen } from '../components/auth/LoginScreen'
-import { registerScreen } from '../components/auth/registerScreen'
+import { RegisterScreen } from '../components/auth/RegisterScreen'
+import { Loading } from '../components/loading/Loading'
 
 
 
 
 export const AuthRouter = () => {
+
+   const { loading } = useSelector((state) => state.ui)
 
    let match = useRouteMatch();
 
@@ -23,12 +27,14 @@ export const AuthRouter = () => {
                <Route
                   exact
                   path={`${match.path}/register`}
-                  component={registerScreen}
+                  component={RegisterScreen}
                />
 
                <Redirect to={`${match.path}/login`} />
             </Switch>
          </div>
+
+         {loading && <Loading />}
 
       </div>
    )

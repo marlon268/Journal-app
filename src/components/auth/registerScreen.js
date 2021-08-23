@@ -1,12 +1,84 @@
 import React from 'react'
+import validator from "validator";
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
-export const registerScreen = () => {
+import { useForm } from '../../hooks/useForm'
+import { removeError, setError } from '../../actions/ui';
+import { startRegisterWithEmailPasswordName } from '../../actions/auth';
+
+
+export const RegisterScreen = () => {
+
+   const dispatch = useDispatch()
+   // useSelector me regresa el state del redux
+   const { msgError } = useSelector((state) => state.ui)
+
+   const [formValues, handleInputChange] = useForm({
+      name: "Estiben",
+      email: "estiben@gmail.com",
+      password: "123456",
+      password2: "123456"
+   })
+
+   const { name, email, password, password2 } = formValues;
+
+   const handleRegister = (e) => {
+      e.preventDefault()
+
+      if (isFormValid()) {
+         dispatch(startRegisterWithEmailPasswordName(email, password, name))
+      }
+
+   }
+
+   const isFormValid = () => {
+
+      // npm i validator:  Nos ayuda a hacer validaciones de formularios
+
+      if (name.trim().length === 0) {
+
+         dispatch(setError("Name is required"))
+         return false
+
+      } else if (!validator.isEmail(email)) {
+
+         dispatch(setError("Email is not valid"))
+         return false;
+
+      } else if (password !== password2 || password.length < 5) {
+
+         dispatch(setError("password should be at least 6 characters an mach eacht other"))
+         return false
+
+      } else {
+
+         dispatch(removeError())
+         return true;
+
+      }
+
+
+   }
+
+
    return (
       <>
          <h3 className="auth__title">Register</h3>
 
-         <form>
+         <form
+            onSubmit={handleRegister}
+            className="auth__form animate__animated animate__fadeIn animate-faster"
+         >
+
+            {
+               msgError &&
+               (
+                  <div className="auth__alert-error">
+                     {msgError}
+                  </div>
+               )
+            }
 
             <input
                type="text"
@@ -14,6 +86,8 @@ export const registerScreen = () => {
                name="name"
                className="auth__input"
                autoComplete="off"
+               value={name}
+               onChange={handleInputChange}
             />
 
             <input
@@ -22,6 +96,8 @@ export const registerScreen = () => {
                name="email"
                className="auth__input"
                autoComplete="off"
+               value={email}
+               onChange={handleInputChange}
             />
 
 
@@ -31,6 +107,8 @@ export const registerScreen = () => {
                placeholder="Password"
                name="password"
                className="auth__input"
+               value={password}
+               onChange={handleInputChange}
             />
 
             <input
@@ -39,6 +117,8 @@ export const registerScreen = () => {
                name="password2"
                className="auth__input"
                autoComplete="off"
+               value={password2}
+               onChange={handleInputChange}
             />
 
             <button
