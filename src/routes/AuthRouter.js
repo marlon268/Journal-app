@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { LoginScreen } from '../components/auth/LoginScreen'
-import { RegisterScreen } from '../components/auth/RegisterScreen'
+import { RegisterScreen } from '../components/auth/registerScreen'
 import { Loading } from '../components/loading/Loading'
 
 
