@@ -1,22 +1,29 @@
 import React from 'react'
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import validator from "validator";
 
 import { startGoogleLogin, startLoginEmailPassword } from '../../actions/auth'
-import { setError } from '../../actions/ui';
+import { removeError, setError } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm'
 
 export const LoginScreen = () => {
 
    const { msgError, loading } = useSelector((state) => state.ui)
-
-
    const dispatch = useDispatch();
 
+   useEffect(() => {
+
+      dispatch(removeError())
+
+   }, [dispatch])
+
+
+
    const [formValues, handleInputChange] = useForm({
-      email: 'estiben@gmail.com',
-      password: '123456'
+      email: '',
+      password: ''
    });
 
    const { email, password } = formValues;
@@ -54,9 +61,11 @@ export const LoginScreen = () => {
             onSubmit={handleLogin}
             className="auth__form animate__animated animate__fadeIn animate-faster"
          >
+
+            <label className="auth__label mb-1" htmlFor="Email">Email</label>
             <input
+               id="Email"
                type="text"
-               placeholder="Email"
                name="email"
                className="auth__input"
                autoComplete="off"
@@ -64,9 +73,10 @@ export const LoginScreen = () => {
                onChange={handleInputChange}
             />
 
+            <label className="auth__label mb-1" htmlFor="password">Password</label>
             <input
+               id="password"
                type="password"
-               placeholder="Password"
                name="password"
                className="auth__input"
                value={password}
@@ -74,7 +84,7 @@ export const LoginScreen = () => {
             />
 
             <button
-               className="btn btn-primary btn-block btn-margin"
+               className="btn btn-primary btn-block btn-login"
                type="submit"
                disabled={loading}
             >

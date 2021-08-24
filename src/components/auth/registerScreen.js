@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import validator from "validator";
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,16 +9,23 @@ import { startRegisterWithEmailPasswordName } from '../../actions/auth';
 
 
 export const RegisterScreen = () => {
-
    const dispatch = useDispatch()
+
+   useEffect(() => {
+
+      dispatch(removeError())
+
+   }, [dispatch])
+
+
    // useSelector me regresa el state del redux
    const { msgError } = useSelector((state) => state.ui)
 
    const [formValues, handleInputChange] = useForm({
-      name: "Estiben",
-      email: "estiben@gmail.com",
-      password: "123456",
-      password2: "123456"
+      name: "",
+      email: "",
+      password: "",
+      password2: ""
    })
 
    const { name, email, password, password2 } = formValues;
@@ -80,9 +87,10 @@ export const RegisterScreen = () => {
                )
             }
 
+            <label className="auth_label mb-1" htmlFor="Name">Name</label>
             <input
+               id="Name"
                type="text"
-               placeholder="Name"
                name="name"
                className="auth__input"
                autoComplete="off"
@@ -90,9 +98,10 @@ export const RegisterScreen = () => {
                onChange={handleInputChange}
             />
 
+            <label className="auth_label mb-1" htmlFor="Email">Email</label>
             <input
+               id="Email"
                type="text"
-               placeholder="Email"
                name="email"
                className="auth__input"
                autoComplete="off"
@@ -101,19 +110,20 @@ export const RegisterScreen = () => {
             />
 
 
-
+            <label className="auth_label mb-1" htmlFor="password">Password</label>
             <input
+               id="password"
                type="password"
-               placeholder="Password"
                name="password"
                className="auth__input"
                value={password}
                onChange={handleInputChange}
             />
 
+            <label className="auth_label mb-1" htmlFor="password2">Repeat Password</label>
             <input
+               id="password2"
                type="password"
-               placeholder="Confirm password"
                name="password2"
                className="auth__input"
                autoComplete="off"
@@ -122,7 +132,7 @@ export const RegisterScreen = () => {
             />
 
             <button
-               className="btn btn-primary btn-block mb-5"
+               className="btn btn-primary btn-block bnt-register mb-5"
                type="submit"
             >
                Register
